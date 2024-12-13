@@ -20,10 +20,14 @@
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
-                    <td>{{ $product->category->name }}</td>
+                    <td>{{ $product->category ? $product->category->name : 'No Category' }}</td>
                     <td>
                         <a href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
-                        <a href="{{ route('admin.products.destroy', $product->id) }}">Delete</a>
+                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

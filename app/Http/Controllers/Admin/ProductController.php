@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,8 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all(); // Fetch all products
-        return view('admin/admin_index', compact('products'));
+        $products = product::all(); // Mengambil semua data produk
+        return view('index', ['products' => $products]); // Mengirim data produk ke view
     }
 
     /**
@@ -38,7 +38,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $product = Product::create([
+        $products = product::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
@@ -77,8 +77,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $products = product::findOrFail($id); // Mencari produk berdasarkan ID
+        $products->delete(); // Menghapus produk
+        return redirect()->route('admin.products.index'); // Mengarahkan kembali ke daftar produk
     }
 }
