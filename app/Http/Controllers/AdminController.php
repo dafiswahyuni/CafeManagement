@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\admin;
+use App\Models\product;
 use App\Http\Requests\StoreadminRequest;
 use App\Http\Requests\UpdateadminRequest;
 
@@ -13,7 +14,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.admin_index');
+        // Ambil semua produk dari database
+    $products = product::all();
+
+    // Kirim data ke view
+    return view('admin.admin_index', compact('products'));
     }
 
     /**
